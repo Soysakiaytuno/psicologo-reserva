@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Cita</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h2 style="text-align: center; color: var(--danger-color);">Eliminar Consulta</h2>
+
+    <div class="form-container" style="border-top: 5px solid var(--danger-color);">
+        <div id="info-cita">
+            <p style="text-align: center;">Buscando cita...</p>
+        </div>
+
+        <br>
+        <div class="flex-gap">
+            <a href="index.html" class="btn-save btn-secondary">Cancelar</a>
+            <button id="btn-confirmar-eliminar" class="btn-save btn-danger" style="display:none;">Sí, Eliminar Permanentemente</button>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const fechaParam = urlParams.get('fecha');
+        const citas = JSON.parse(localStorage.getItem('citas')) || [];
+        
+        const citaEncontrada = citas.find(c => {
+            return new Date(c.start).getTime() === new Date(fechaParam).getTime();
+        });
+
+        const contenedor = document.getElementById('info-cita');
+        const btnEliminar = document.getElementById('btn-confirmar-eliminar');
+
+        if (citaEncontrada) {
+            const props = citaEncontrada.extendedProps || {};
+            const fechaLegible = new Date(citaEncontrada.start).toLocaleString('es-ES');
+
+            contenedor.innerHTML = `
+                <h3 style="text-align:center;">¿Estás seguro de que deseas eliminar esta cita?</h3>
+                <p><strong>Paciente:</strong> ${props.nombrePaciente || 'Desconocido'}</p>
+                <p><strong>Fecha y Hora:</strong> ${fechaLegible}</p>
+                <p style="color: #666; text-align:center; margin-top: 20px;">Esta acción no se puede deshacer.</p>
+            `;
+            
+            btnEliminar.style.display = 'block';
+            btnEliminar.addEventListener('click', function() {
+                const nuevasCitas = citas.filter(c => new Date(c.start).getTime() !== new Date(citaEncontrada.start).getTime());
+                localStorage.setItem('citas', JSON.stringify(nuevasCitas));
+                window.location.href = 'index.html';
+            });
+        } else {
+            contenedor.innerHTML = "<p style='color: red; text-align: center;'>Error: No se encontró la cita.</p>";
+        }
+    </script>
+</body>
+</html>

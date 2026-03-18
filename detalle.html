@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Consulta</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h2 style="text-align: center;">Información de la Consulta</h2>
+
+    <div class="form-container">
+        <div id="info-cita">
+            <p style="text-align: center; color: #666;">Cargando información...</p>
+        </div>
+
+        <br>
+        <div class="flex-gap">
+            <a href="index.html" class="btn-save btn-secondary">Volver al Calendario</a>
+        </div>
+    </div>
+
+    <script>
+        // 1. Obtener la fecha de la URL para saber qué cita buscar
+        const urlParams = new URLSearchParams(window.location.search);
+        const fechaParam = urlParams.get('fecha');
+
+        // 2. Buscar la cita en LocalStorage
+        const citas = JSON.parse(localStorage.getItem('citas')) || [];
+        
+        // Buscamos la cita que coincida con la fecha de inicio
+        // (Comparamos timestamps para evitar problemas de formato de texto)
+        const citaEncontrada = citas.find(c => {
+            return new Date(c.start).getTime() === new Date(fechaParam).getTime();
+        });
+
+        const contenedor = document.getElementById('info-cita');
+
+        if (citaEncontrada) {
+            const props = citaEncontrada.extendedProps || {};
+            const fechaLegible = new Date(citaEncontrada.start).toLocaleString('es-ES', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
+            const horaInicio = new Date(citaEncontrada.start).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+            const horaFin = new Date(citaEncontrada.end).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+
+            contenedor.innerHTML = `
+                <div class="form-group">
+                    <label>Título / Motivo:</label>
+                    <div style="font-size: 1.2em; color: #2c3e50;">${citaEncontrada.title}</div>
+                </div>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+                <p><strong>📅 Fecha:</strong> ${fechaLegible}</p>
+                <p><strong>⏰ Horario:</strong> ${horaInicio} - ${horaFin}</p>
+                <p><strong>👤 Paciente:</strong> ${props.nombrePaciente || 'No especificado'}</p>
+                <p><strong>🎂 Edad:</strong> ${props.edad || 'No especificada'}</p>
+                <p><strong>🆔 Carnet:</strong> ${props.carnet || 'No especificado'}</p>
+                <p><strong>📝 Descripción:</strong></p>
+                <div style="background: #f0f0f0; padding: 10px; border-radius: 4px; min-height: 60px;">${props.descripcion || 'Sin descripción adicional.'}</div>
+            `;
+        } else {
+            contenedor.innerHTML = "<p style='color: red; text-align: center;'>No se encontró la cita solicitada.</p>";
+        }
+    </script>
+</body>
+</html>

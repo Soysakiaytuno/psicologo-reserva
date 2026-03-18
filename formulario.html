@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Cita</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h2 style="text-align: center;">Datos del Paciente</h2>
+
+    <div class="form-container">
+        <form id="citaForm">
+            <div class="form-group">
+                <label>Fecha (Automática):</label>
+                <input type="date" id="fecha" readonly style="background-color: #e0f2f1; color: #555; font-weight: bold;">
+            </div>
+
+            <div class="form-group" style="display: flex; gap: 15px;">
+                <div style="flex: 1;">
+                    <label>Hora Inicio:</label>
+                    <input type="time" id="horaInicio" required>
+                </div>
+                <div style="flex: 1;">
+                    <label>Hora Fin:</label>
+                    <input type="time" id="horaFin" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre">Nombre Completo:</label>
+                <input type="text" id="nombre" required placeholder="Ej: Juan Pérez">
+            </div>
+
+            <div class="form-group">
+                <label for="carnet">Carnet de Identidad:</label>
+                <input type="text" id="carnet" required placeholder="Ej: 1234567 SC">
+            </div>
+
+            <div class="form-group">
+                <label for="edad">Edad:</label>
+                <input type="number" id="edad" required placeholder="Ej: 35" min="1">
+            </div>
+
+            <div class="form-group">
+                <label for="titulo">Motivo (Título):</label>
+                <input type="text" id="titulo" required placeholder="Ej: Ansiedad, Consulta Inicial">
+            </div>
+
+            <div class="form-group">
+                <label for="descripcion">Descripción Detallada:</label>
+                <textarea id="descripcion" rows="4" placeholder="Detalles adicionales..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-save">Agendar Cita</button>
+            <div class="text-center" style="margin-top: 15px;">
+                <a href="index.html" class="btn-save btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // 1. Obtener parámetros de la URL y mostrar la fecha
+        const urlParams = new URLSearchParams(window.location.search);
+        const startParam = urlParams.get('start');
+        const endParam = urlParams.get('end');
+
+        const fechaInput = document.getElementById('fecha');
+        const horaInicioInput = document.getElementById('horaInicio');
+        const horaFinInput = document.getElementById('horaFin');
+
+        if (startParam) {
+            const fechaObj = new Date(startParam);
+            
+            // 1. Llenar Fecha (YYYY-MM-DD)
+            const year = fechaObj.getFullYear();
+            const month = String(fechaObj.getMonth() + 1).padStart(2, '0');
+            const day = String(fechaObj.getDate()).padStart(2, '0');
+            fechaInput.value = `${year}-${month}-${day}`;
+            
+            // 2. Llenar Hora Inicio (HH:mm)
+            const hours = String(fechaObj.getHours()).padStart(2, '0');
+            const minutes = String(fechaObj.getMinutes()).padStart(2, '0');
+            horaInicioInput.value = `${hours}:${minutes}`;
+
+            // 3. Calcular Hora Fin por defecto (+1 hora)
+            // Usamos la fechaObj base y le sumamos una hora
+            const finObj = new Date(fechaObj.getTime() + 60 * 60 * 1000);
+            const finHours = String(finObj.getHours()).padStart(2, '0');
+            const finMinutes = String(finObj.getMinutes()).padStart(2, '0');
+            horaFinInput.value = `${finHours}:${finMinutes}`;
+        }
+
+        // Si alguien entra directo sin fecha, lo mandamos al calendario
+        if (!startParam) {
+            window.location.href = 'index.html';
+        }
+
+        // 2. Manejar el envío del formulario
+        document.getElementById('citaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Capturar datos
+            const fecha = document.getElementById('fecha').value;
+            const horaInicio = document.getElementById('horaInicio').value;
+            const horaFin = document.getElementById('horaFin').value;
+            
+            const nombre = document.getElementById('nombre').value;
+            const edad = document.getElementById('edad').value;
+            const carnet = document.getElementById('carnet').value;
+            const tituloMotivo = document.getElementById('titulo').value;
+            const descripcion = document.getElementById('descripcion').value;
+
+            // Construir objetos de fecha completos
+            const fechaInicioObj = new Date(`${fecha}T${horaInicio}:00`);
+            const fechaFinObj = new Date(`${fecha}T${horaFin}:00`);
+            
+            // Validar que no sea un día pasado (comparando solo fechas)
+            const ahora = new Date();
+            const fechaActualSinHora = new Date(ahora);
+            fechaActualSinHora.setHours(0, 0, 0, 0);
+
+            const fechaCheck = new Date(fechaInicioObj);
+            fechaCheck.setHours(0, 0, 0, 0);
+
+            if (fechaCheck < fechaActualSinHora) {
+                alert("Error: La fecha seleccionada es anterior a hoy.");
+                return;
+            }
+
+            // Validar que si es hoy, la hora no haya pasado
+            if (fechaCheck.getTime() === fechaActualSinHora.getTime() && fechaInicioObj < ahora) {
+                alert("Error: La hora de inicio seleccionada ya pasó.");
+                return;
+            }
+
+            // Validar que la hora fin sea mayor a la de inicio
+            if (fechaFinObj <= fechaInicioObj) {
+                alert("La hora de finalización debe ser posterior a la hora de inicio.");
+                return;
+            }
+
+            // --- VALIDACIÓN FINAL ANTES DE GUARDAR ---
+            const citasGuardadas = JSON.parse(localStorage.getItem('citas')) || [];
+            
+            // Verificar si hay choque de horarios (Overlap)
+            const conflicto = citasGuardadas.some(cita => {
+                const existingStart = new Date(cita.start).getTime();
+                const existingEnd = new Date(cita.end).getTime();
+                const newStart = fechaInicioObj.getTime();
+                const newEnd = fechaFinObj.getTime();
+
+                // Lógica de superposición: (InicioA < FinB) y (FinA > InicioB)
+                return (newStart < existingEnd && newEnd > existingStart);
+            });
+
+            if (conflicto) {
+                alert("ERROR: Ya existe una cita en ese rango de horario. Por favor verifica las horas.");
+                return; // Detenemos el guardado
+            }
+
+            // Crear objeto de la cita
+            const nuevaCita = {
+                title: `${tituloMotivo} - ${nombre}`, // Título visible en el calendario
+                start: fechaInicioObj.toISOString(),
+                end: fechaFinObj.toISOString(),
+                extendedProps: { // Datos extra que no muestra FullCalendar por defecto pero guardamos
+                    nombrePaciente: nombre,
+                    edad: edad,
+                    carnet: carnet,
+                    descripcion: descripcion
+                }
+            };
+
+            // 3. Guardar en LocalStorage
+            citasGuardadas.push(nuevaCita);
+            localStorage.setItem('citas', JSON.stringify(citasGuardadas));
+
+            // 4. Volver al calendario
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
