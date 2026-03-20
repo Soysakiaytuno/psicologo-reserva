@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eliminar Cita</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Importar Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -23,37 +25,45 @@
     </div>
 
     <script>
+        const supabaseUrl = 'https://wftstfgqpulvvoisfdgm.supabase.co';
+        const supabaseKey = 'sb_publishable_kFSYmTsR1V8YRnN4ny-2cA_W6VYnFbV';
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
         const urlParams = new URLSearchParams(window.location.search);
-        const fechaParam = urlParams.get('fecha');
-        const citas = JSON.parse(localStorage.getItem('citas')) || [];
-        
-        const citaEncontrada = citas.find(c => {
-            return new Date(c.start).getTime() === new Date(fechaParam).getTime();
-        });
+        const idParam = urlParams.get('id');
 
         const contenedor = document.getElementById('info-cita');
         const btnEliminar = document.getElementById('btn-confirmar-eliminar');
 
-        if (citaEncontrada) {
-            const props = citaEncontrada.extendedProps || {};
-            const fechaLegible = new Date(citaEncontrada.start).toLocaleString('es-ES');
+        async function cargarDatosEliminar() {
+            if (!idParam) return;
 
-            contenedor.innerHTML = `
-                <h3 style="text-align:center;">¿Estás seguro de que deseas eliminar esta cita?</h3>
-                <p><strong>Paciente:</strong> ${props.nombrePaciente || 'Desconocido'}</p>
-                <p><strong>Fecha y Hora:</strong> ${fechaLegible}</p>
-                <p style="color: #666; text-align:center; margin-top: 20px;">Esta acción no se puede deshacer.</p>
-            `;
-            
-            btnEliminar.style.display = 'block';
-            btnEliminar.addEventListener('click', function() {
-                const nuevasCitas = citas.filter(c => new Date(c.start).getTime() !== new Date(citaEncontrada.start).getTime());
-                localStorage.setItem('citas', JSON.stringify(nuevasCitas));
-                window.location.href = 'index.html';
-            });
-        } else {
-            contenedor.innerHTML = "<p style='color: red; text-align: center;'>Error: No se encontró la cita.</p>";
+            const { data: citaEncontrada, error } = await supabaseClient
+                .from('citas')
+                .select('*')
+                .eq('id', idParam)
+                .single();
+
+            if (citaEncontrada && !error) {
+                const fechaLegible = new Date(citaEncontrada.start_time).toLocaleString('es-ES');
+
+                contenedor.innerHTML = `
+                    <h3 style="text-align:center;">¿Estás seguro de que deseas eliminar esta cita?</h3>
+                    <p><strong>Paciente:</strong> ${citaEncontrada.paciente_nombre || 'Desconocido'}</p>
+                    <p><strong>Fecha y Hora:</strong> ${fechaLegible}</p>
+                    <p style="color: #666; text-align:center; margin-top: 20px;">Esta acción no se puede deshacer.</p>
+                `;
+                
+                btnEliminar.style.display = 'block';
+                btnEliminar.addEventListener('click', async function() {
+                    await supabaseClient.from('citas').delete().eq('id', idParam);
+                    window.location.href = 'index.html';
+                });
+            } else {
+                contenedor.innerHTML = "<p style='color: red; text-align: center;'>Error: No se encontró la cita.</p>";
+            }
         }
+        cargarDatosEliminar();
     </script>
 </body>
 </html>

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nueva Cita</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Importar Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -61,7 +63,12 @@
     </div>
 
     <script>
-        // 1. Obtener parámetros de la URL y mostrar la fecha
+        // Configuración de Supabase
+        const supabaseUrl = 'https://wftstfgqpulvvoisfdgm.supabase.co';
+        const supabaseKey = 'sb_publishable_kFSYmTsR1V8YRnN4ny-2cA_W6VYnFbV';
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Obtener parámetros de la URL y mostrar la fecha
         const urlParams = new URLSearchParams(window.location.search);
         const startParam = urlParams.get('start');
         const endParam = urlParams.get('end');
@@ -98,7 +105,7 @@
         }
 
         // 2. Manejar el envío del formulario
-        document.getElementById('citaForm').addEventListener('submit', function(e) {
+        document.getElementById('citaForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             // Capturar datos
@@ -142,12 +149,23 @@
             }
 
             // --- VALIDACIÓN FINAL ANTES DE GUARDAR ---
-            const citasGuardadas = JSON.parse(localStorage.getItem('citas')) || [];
+            
+            // Obtener citas de ese mismo día para verificar choques
+            const { data: citasGuardadas, error: fetchError } = await supabaseClient
+                .from('citas')
+                .select('start_time, end_time')
+                .gte('start_time', `${fecha}T00:00:00`)
+                .lte('start_time', `${fecha}T23:59:59`);
+
+            if (fetchError) {
+                alert("Error al verificar disponibilidad en la base de datos.");
+                return;
+            }
             
             // Verificar si hay choque de horarios (Overlap)
-            const conflicto = citasGuardadas.some(cita => {
-                const existingStart = new Date(cita.start).getTime();
-                const existingEnd = new Date(cita.end).getTime();
+            const conflicto = (citasGuardadas || []).some(cita => {
+                const existingStart = new Date(cita.start_time).getTime();
+                const existingEnd = new Date(cita.end_time).getTime();
                 const newStart = fechaInicioObj.getTime();
                 const newEnd = fechaFinObj.getTime();
 
@@ -160,22 +178,22 @@
                 return; // Detenemos el guardado
             }
 
-            // Crear objeto de la cita
-            const nuevaCita = {
+            // 3. Guardar en Supabase
+            const { error: insertError } = await supabaseClient.from('citas').insert([{
                 title: `${tituloMotivo} - ${nombre}`, // Título visible en el calendario
-                start: fechaInicioObj.toISOString(),
-                end: fechaFinObj.toISOString(),
-                extendedProps: { // Datos extra que no muestra FullCalendar por defecto pero guardamos
-                    nombrePaciente: nombre,
-                    edad: edad,
-                    carnet: carnet,
-                    descripcion: descripcion
-                }
-            };
+                start_time: fechaInicioObj.toISOString(),
+                end_time: fechaFinObj.toISOString(),
+                paciente_nombre: nombre,
+                paciente_edad: edad,
+                paciente_carnet: carnet,
+                descripcion: descripcion
+            }]);
 
-            // 3. Guardar en LocalStorage
-            citasGuardadas.push(nuevaCita);
-            localStorage.setItem('citas', JSON.stringify(citasGuardadas));
+            if (insertError) {
+                alert("Error al guardar la cita.");
+                console.error(insertError);
+                return;
+            }
 
             // 4. Volver al calendario
             window.location.href = 'index.html';

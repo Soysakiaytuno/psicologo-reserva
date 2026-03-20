@@ -1,4 +1,9 @@
-document.addEventListener('DOMContentLoaded', function() {
+// Configuración de Supabase (REEMPLAZA CON TUS CREDENCIALES)
+const supabaseUrl = 'https://wftstfgqpulvvoisfdgm.supabase.co';
+const supabaseKey = 'sb_publishable_kFSYmTsR1V8YRnN4ny-2cA_W6VYnFbV';
+const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+document.addEventListener('DOMContentLoaded', async function() {
     // --- GESTIÓN DE MODOS (Normal, Edit, Delete) ---
     let currentMode = 'normal';
     
@@ -31,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         editable: true,             // Permite arrastrar y soltar eventos
         
         // Evento: Al hacer clic en un hueco vacío (Crear Cita)
-        select: function(info) {
+        select: async function(info) {
             // --- INICIO DE VALIDACIONES ---
 
             // 1. No se puede crear en días pasados (pero sí hoy a cualquier hora)
@@ -49,10 +54,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // 2. No se puede crear si ya existe una cita en ese hueco
-            const citasExistentes = JSON.parse(localStorage.getItem('citas')) || [];
-            const yaExiste = citasExistentes.some(
-                cita => new Date(cita.start).getTime() === info.start.getTime()
-            );
+            // Consultamos en Supabase si ya hay una cita con esa fecha exacta
+            const { data: citasExistentes, error } = await supabaseClient
+                .from('citas')
+                .select('start_time')
+                .eq('start_time', info.start.toISOString());
+            
+            const yaExiste = citasExistentes && citasExistentes.length > 0;
 
             if (yaExiste) {
                 alert("Ya existe una cita en este horario. Por favor, selecciona otro.");
@@ -75,19 +83,42 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Evento: Al hacer clic en una cita existente (Ver/Borrar)
         eventClick: function(info) {
-            const fecha = encodeURIComponent(info.event.startStr);
+            const id = encodeURIComponent(info.event.id);
             
             if (currentMode === 'edit') {
-                window.location.href = `editar.html?fecha=${fecha}`;
+                window.location.href = `editar.html?id=${id}`;
             } else if (currentMode === 'delete') {
-                window.location.href = `eliminar.html?fecha=${fecha}`;
+                window.location.href = `eliminar.html?id=${id}`;
             } else {
-                window.location.href = `detalle.html?fecha=${fecha}`;
+                window.location.href = `detalle.html?id=${id}`;
             }
         },
 
-        // Cargar eventos desde LocalStorage
-        events: JSON.parse(localStorage.getItem('citas')) || []
+        // Cargar eventos directamente desde Supabase
+        events: async function(fetchInfo, successCallback, failureCallback) {
+            try {
+                const { data, error } = await supabaseClient.from('citas').select('*');
+                if (error) throw error;
+                
+                // Mapeamos los datos de Supabase al formato que entiende FullCalendar
+                const eventos = data.map(cita => ({
+                    id: cita.id,
+                    title: cita.title,
+                    start: cita.start_time,
+                    end: cita.end_time,
+                    extendedProps: {
+                        nombrePaciente: cita.paciente_nombre,
+                        edad: cita.paciente_edad,
+                        carnet: cita.paciente_carnet,
+                        descripcion: cita.descripcion
+                    }
+                }));
+                successCallback(eventos);
+            } catch (err) {
+                console.error("Error al cargar citas de Supabase:", err);
+                failureCallback(err);
+            }
+        }
     });
 
     calendar.render();
