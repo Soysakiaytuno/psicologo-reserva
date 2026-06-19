@@ -1,4 +1,5 @@
 import { supabaseClient } from './supabase.js';
+import { validarFechaNoPasada } from './validaciones.js';
 
 if (typeof document !== 'undefined') {
     document.addEventListener('DOMContentLoaded', async function () {

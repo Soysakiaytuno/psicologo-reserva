@@ -1,4 +1,5 @@
 import { supabaseClient } from './supabase.js';
+import { hayChoqueDeHorarios, validarOrdenHoras } from './validaciones.js';
 
 // --- DOM Y BASE DE DATOS ---
 if (typeof window !== 'undefined' && document.getElementById('citaForm')) {

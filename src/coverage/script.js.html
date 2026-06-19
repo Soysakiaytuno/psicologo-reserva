@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">9.83% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/61</span>
+                <span class='fraction'>0/56</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.4% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/27</span>
+                <span class='fraction'>0/26</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/10</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10.16% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/59</span>
+                <span class='fraction'>0/54</span>
             </div>
         
             
@@ -215,24 +215,10 @@
 <a name='L150'></a><a href='#L150'>150</a>
 <a name='L151'></a><a href='#L151'>151</a>
 <a name='L152'></a><a href='#L152'>152</a>
-<a name='L153'></a><a href='#L153'>153</a>
-<a name='L154'></a><a href='#L154'>154</a>
-<a name='L155'></a><a href='#L155'>155</a>
-<a name='L156'></a><a href='#L156'>156</a>
-<a name='L157'></a><a href='#L157'>157</a>
-<a name='L158'></a><a href='#L158'>158</a>
-<a name='L159'></a><a href='#L159'>159</a>
-<a name='L160'></a><a href='#L160'>160</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L153'></a><a href='#L153'>153</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -382,163 +368,156 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { supabaseClient } from './supabase.js';
+import { validarFechaNoPasada } from './validaciones.js';
 &nbsp;
-export function validarFechaNoPasada(fechaCita, fechaActual = new Date()) {
-    const ahora = new Date(fechaActual);
-    const seleccion = new Date(fechaCita);
-    ahora.setHours(0, 0, 0, 0);
-    seleccion.setHours(0, 0, 0, 0);
-    return seleccion &gt;= ahora; 
-}
+<span class="cstat-no" title="statement not covered" >if (typeof document !== 'undefined') {</span>
+<span class="cstat-no" title="statement not covered" >    document.addEventListener('DOMContentLoaded', <span class="fstat-no" title="function not covered" >async </span>function () {</span>
+        // --- GESTIÓN DE MODOS (Normal, Edit, Delete) ---
+        let currentMode = <span class="cstat-no" title="statement not covered" >'normal';</span>
 &nbsp;
-<span class="missing-if-branch" title="if path not taken" >I</span>if (typeof document !== 'undefined') {
-<span class="cstat-no" title="statement not covered" >    document.addEventListener('DOMContentLoaded', <span class="fstat-no" title="function not covered" >async </span>function() {</span>
-    // --- GESTIÓN DE MODOS (Normal, Edit, Delete) ---
-    let currentMode = <span class="cstat-no" title="statement not covered" >'normal';</span>
-    
-    var calendarEl = <span class="cstat-no" title="statement not covered" >document.getElementById('calendar');</span>
+        var calendarEl = <span class="cstat-no" title="statement not covered" >document.getElementById('calendar');</span>
 &nbsp;
-    // 2. Inicialización del Calendario
-    var calendar = <span class="cstat-no" title="statement not covered" >new FullCalendar.Calendar(calendarEl, {</span>
-        // Configuración básica
-        initialView: 'dayGridMonth', 
-        locale: 'es',               
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: ''
-        },
+        // 2. Inicialización del Calendario
+        var calendar = <span class="cstat-no" title="statement not covered" >new FullCalendar.Calendar(calendarEl, {</span>
+            // Configuración básica
+            initialView: 'dayGridMonth',
+            locale: 'es',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: ''
+            },
 &nbsp;
-        // Configuración de horarios (Psicólogo)
-        slotDuration: '01:00:00',   
-        slotMinTime: '08:00:00',    
-        slotMaxTime: '20:00:00',    
-        allDaySlot: false,          
-        businessHours: {            
-            daysOfWeek: [ 1, 2, 3, 4, 5 ], 
-            startTime: '09:00', 
-            endTime: '18:00', 
-        },
-        
-        // Interacción
-        selectable: true,           
-        editable: true,             
-        
-        // Evento: Al hacer clic en un hueco vacío (Crear Cita)
-<span class="fstat-no" title="function not covered" >        select:</span> async function(info) {
+            // Configuración de horarios (Psicólogo)
+            slotDuration: '01:00:00',
+            slotMinTime: '08:00:00',
+            slotMaxTime: '20:00:00',
+            allDaySlot: false,
+            businessHours: {
+                daysOfWeek: [1, 2, 3, 4, 5],
+                startTime: '09:00',
+                endTime: '18:00',
+            },
 &nbsp;
-            // 1. No se puede crear en días pasados (pero sí hoy a cualquier hora)
-            const esValida = <span class="cstat-no" title="statement not covered" >validarFechaNoPasada(info.start);</span>
-            
-<span class="cstat-no" title="statement not covered" >            if (!esValida) {</span>
-<span class="cstat-no" title="statement not covered" >                alert("No puedes agendar citas en una fecha pasada.");</span>
-<span class="cstat-no" title="statement not covered" >                calendar.unselect(); </span>// Deseleccionar el hueco
-<span class="cstat-no" title="statement not covered" >                return;</span>
+            // Interacción
+            selectable: true,
+            editable: true,
+&nbsp;
+            // Evento: Al hacer clic en un hueco vacío (Crear Cita)
+<span class="fstat-no" title="function not covered" >            select:</span> async function (info) {
+&nbsp;
+                // 1. No se puede crear en días pasados (pero sí hoy a cualquier hora)
+                const esValida =<span class="cstat-no" title="statement not covered" > validarFechaNoPasada(info.start);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                if (!esValida) {</span>
+<span class="cstat-no" title="statement not covered" >                    alert("No puedes agendar citas en una fecha pasada.");</span>
+<span class="cstat-no" title="statement not covered" >                    calendar.unselect(); </span>// Deseleccionar el hueco
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+&nbsp;
+                // 2. No se puede crear si ya existe una cita en ese hueco
+                // Consultamos en Supabase si ya hay una cita con esa fecha exacta
+                const { data: citasExistentes, error } = <span class="cstat-no" title="statement not covered" >await supabaseClient</span>
+                    .from('citas')
+                    .select('start_time')
+                    .eq('start_time', info.start.toISOString());
+&nbsp;
+                const yaExiste = <span class="cstat-no" title="statement not covered" >citasExistentes &amp;&amp; citasExistentes.length &gt; 0;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                if (yaExiste) {</span>
+<span class="cstat-no" title="statement not covered" >                    alert("Ya existe una cita en este horario. Por favor, selecciona otro.");</span>
+<span class="cstat-no" title="statement not covered" >                    calendar.unselect();</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+&nbsp;
+                // Ajuste para vista mensual: si no tiene hora, agregamos 09:00 por defecto
+                // para que el formulario lo interprete como hora local y no UTC
+                let startStr = <span class="cstat-no" title="statement not covered" >info.startStr;</span>
+<span class="cstat-no" title="statement not covered" >                if (!startStr.includes('T')) {</span>
+<span class="cstat-no" title="statement not covered" >                    startStr += 'T09:00:00';</span>
+                }
+&nbsp;
+                // Redirigir al formulario enviando las fechas seleccionadas por URL
+                const start = <span class="cstat-no" title="statement not covered" >encodeURIComponent(startStr);</span>
+                const end = <span class="cstat-no" title="statement not covered" >encodeURIComponent(info.endStr);</span>
+<span class="cstat-no" title="statement not covered" >                window.location.href = `formulario.html?start=${start}&amp;end=${end}`;</span>
+            },
+&nbsp;
+            // Evento: Al hacer clic en una cita existente (Ver/Borrar)
+<span class="fstat-no" title="function not covered" >            eventClick:</span> function (info) {
+                const id = <span class="cstat-no" title="statement not covered" >encodeURIComponent(info.event.id);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                if (currentMode === 'edit') {</span>
+<span class="cstat-no" title="statement not covered" >                    window.location.href = `editar.html?id=${id}`;</span>
+                } else <span class="cstat-no" title="statement not covered" >if (currentMode === 'delete') {</span>
+<span class="cstat-no" title="statement not covered" >                    window.location.href = `eliminar.html?id=${id}`;</span>
+                } else {
+<span class="cstat-no" title="statement not covered" >                    window.location.href = `detalle.html?id=${id}`;</span>
+                }
+            },
+&nbsp;
+            // Cargar eventos directamente desde Supabase
+<span class="fstat-no" title="function not covered" >            events:</span> async function (fetchInfo, successCallback, failureCallback) {
+<span class="cstat-no" title="statement not covered" >                try {</span>
+                    const { data, error } = <span class="cstat-no" title="statement not covered" >await supabaseClient.from('citas').select('*');</span>
+<span class="cstat-no" title="statement not covered" >                    if (error) <span class="cstat-no" title="statement not covered" >throw error;</span></span>
+&nbsp;
+                    // Mapeamos los datos de Supabase al formato que entiende FullCalendar
+                    const eventos = <span class="cstat-no" title="statement not covered" >data.map(<span class="fstat-no" title="function not covered" >cita </span>=&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+                        id: cita.id,
+                        title: cita.title,
+                        start: cita.start_time,
+                        end: cita.end_time,
+                        extendedProps: {
+                            nombrePaciente: cita.paciente_nombre,
+                            edad: cita.paciente_edad,
+                            carnet: cita.paciente_carnet,
+                            descripcion: cita.descripcion
+                        }
+                    }));
+<span class="cstat-no" title="statement not covered" >                    successCallback(eventos);</span>
+                } catch (err) {
+<span class="cstat-no" title="statement not covered" >                    console.error("Error al cargar citas de Supabase:", err);</span>
+<span class="cstat-no" title="statement not covered" >                    failureCallback(err);</span>
+                }
             }
+        });
 &nbsp;
-            // 2. No se puede crear si ya existe una cita en ese hueco
-            // Consultamos en Supabase si ya hay una cita con esa fecha exacta
-            const { data: citasExistentes, error } = <span class="cstat-no" title="statement not covered" >await supabaseClient</span>
-                .from('citas')
-                .select('start_time')
-                .eq('start_time', info.start.toISOString());
-            
-            const yaExiste = <span class="cstat-no" title="statement not covered" >citasExistentes &amp;&amp; citasExistentes.length &gt; 0;</span>
+<span class="cstat-no" title="statement not covered" >        calendar.render();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            if (yaExiste) {</span>
-<span class="cstat-no" title="statement not covered" >                alert("Ya existe una cita en este horario. Por favor, selecciona otro.");</span>
-<span class="cstat-no" title="statement not covered" >                calendar.unselect();</span>
-<span class="cstat-no" title="statement not covered" >                return;</span>
-            }
+        // --- LÓGICA DE LOS BOTONES LATERALES ---
+        const btnEdit = <span class="cstat-no" title="statement not covered" >document.getElementById('btn-edit-mode');</span>
+        const btnDelete = <span class="cstat-no" title="statement not covered" >document.getElementById('btn-delete-mode');</span>
 &nbsp;
-            // Ajuste para vista mensual: si no tiene hora, agregamos 09:00 por defecto
-            // para que el formulario lo interprete como hora local y no UTC
-            let startStr = <span class="cstat-no" title="statement not covered" >info.startStr;</span>
-<span class="cstat-no" title="statement not covered" >            if (!startStr.includes('T')) {</span>
-<span class="cstat-no" title="statement not covered" >                startStr += 'T09:00:00';</span>
-            }
+        function <span class="fstat-no" title="function not covered" >updateModeUI(</span>) {
+<span class="cstat-no" title="statement not covered" >            btnEdit.classList.remove('active-edit');</span>
+<span class="cstat-no" title="statement not covered" >            btnDelete.classList.remove('active-delete');</span>
 &nbsp;
-            // Redirigir al formulario enviando las fechas seleccionadas por URL
-            const start = <span class="cstat-no" title="statement not covered" >encodeURIComponent(startStr);</span>
-            const end = <span class="cstat-no" title="statement not covered" >encodeURIComponent(info.endStr);</span>
-<span class="cstat-no" title="statement not covered" >            window.location.href = `formulario.html?start=${start}&amp;end=${end}`;</span>
-        },
-&nbsp;
-        // Evento: Al hacer clic en una cita existente (Ver/Borrar)
-<span class="fstat-no" title="function not covered" >        eventClick:</span> function(info) {
-            const id = <span class="cstat-no" title="statement not covered" >encodeURIComponent(info.event.id);</span>
-            
 <span class="cstat-no" title="statement not covered" >            if (currentMode === 'edit') {</span>
-<span class="cstat-no" title="statement not covered" >                window.location.href = `editar.html?id=${id}`;</span>
+<span class="cstat-no" title="statement not covered" >                btnEdit.classList.add('active-edit');</span>
             } else <span class="cstat-no" title="statement not covered" >if (currentMode === 'delete') {</span>
-<span class="cstat-no" title="statement not covered" >                window.location.href = `eliminar.html?id=${id}`;</span>
-            } else {
-<span class="cstat-no" title="statement not covered" >                window.location.href = `detalle.html?id=${id}`;</span>
-            }
-        },
-&nbsp;
-        // Cargar eventos directamente desde Supabase
-<span class="fstat-no" title="function not covered" >        events:</span> async function(fetchInfo, successCallback, failureCallback) {
-<span class="cstat-no" title="statement not covered" >            try {</span>
-                const { data, error } = <span class="cstat-no" title="statement not covered" >await supabaseClient.from('citas').select('*');</span>
-<span class="cstat-no" title="statement not covered" >                if (error) <span class="cstat-no" title="statement not covered" >throw error;</span></span>
-                
-                // Mapeamos los datos de Supabase al formato que entiende FullCalendar
-                const eventos = <span class="cstat-no" title="statement not covered" >data.map(<span class="fstat-no" title="function not covered" >cita </span>=&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
-                    id: cita.id,
-                    title: cita.title,
-                    start: cita.start_time,
-                    end: cita.end_time,
-                    extendedProps: {
-                        nombrePaciente: cita.paciente_nombre,
-                        edad: cita.paciente_edad,
-                        carnet: cita.paciente_carnet,
-                        descripcion: cita.descripcion
-                    }
-                }));
-<span class="cstat-no" title="statement not covered" >                successCallback(eventos);</span>
-            } catch (err) {
-<span class="cstat-no" title="statement not covered" >                console.error("Error al cargar citas de Supabase:", err);</span>
-<span class="cstat-no" title="statement not covered" >                failureCallback(err);</span>
+<span class="cstat-no" title="statement not covered" >                btnDelete.classList.add('active-delete');</span>
             }
         }
-    });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    calendar.render();</span>
-&nbsp;
-    // --- LÓGICA DE LOS BOTONES LATERALES ---
-    const btnEdit = <span class="cstat-no" title="statement not covered" >document.getElementById('btn-edit-mode');</span>
-    const btnDelete = <span class="cstat-no" title="statement not covered" >document.getElementById('btn-delete-mode');</span>
-&nbsp;
-    function <span class="fstat-no" title="function not covered" >updateModeUI(</span>) {
-<span class="cstat-no" title="statement not covered" >        btnEdit.classList.remove('active-edit');</span>
-<span class="cstat-no" title="statement not covered" >        btnDelete.classList.remove('active-delete');</span>
-        
-<span class="cstat-no" title="statement not covered" >        if (currentMode === 'edit') {</span>
-<span class="cstat-no" title="statement not covered" >            btnEdit.classList.add('active-edit');</span>
-        } else <span class="cstat-no" title="statement not covered" >if (currentMode === 'delete') {</span>
-<span class="cstat-no" title="statement not covered" >            btnDelete.classList.add('active-delete');</span>
-        }
-    }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    btnEdit.addEventListener('click', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-        // Si ya está en modo edición, lo apaga. Si no, lo enciende.
-<span class="cstat-no" title="statement not covered" >        currentMode = (currentMode === 'edit') ? 'normal' : 'edit';</span>
-<span class="cstat-no" title="statement not covered" >        updateModeUI();</span>
-    });
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    btnDelete.addEventListener('click', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-        // Si ya está en modo eliminación, lo apaga. Si no, lo enciende.
-<span class="cstat-no" title="statement not covered" >        currentMode = (currentMode === 'delete') ? 'normal' : 'delete';</span>
-<span class="cstat-no" title="statement not covered" >        updateModeUI();</span>
-    });
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    document.addEventListener('keydown', <span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        if (e.key === 'Escape') {</span>
-<span class="cstat-no" title="statement not covered" >            currentMode = 'normal';</span>
+<span class="cstat-no" title="statement not covered" >        btnEdit.addEventListener('click', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+            // Si ya está en modo edición, lo apaga. Si no, lo enciende.
+<span class="cstat-no" title="statement not covered" >            currentMode = (currentMode === 'edit') ? 'normal' : 'edit';</span>
 <span class="cstat-no" title="statement not covered" >            updateModeUI();</span>
-        }
-    });
+        });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        btnDelete.addEventListener('click', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+            // Si ya está en modo eliminación, lo apaga. Si no, lo enciende.
+<span class="cstat-no" title="statement not covered" >            currentMode = (currentMode === 'delete') ? 'normal' : 'delete';</span>
+<span class="cstat-no" title="statement not covered" >            updateModeUI();</span>
+        });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        document.addEventListener('keydown', <span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            if (e.key === 'Escape') {</span>
+<span class="cstat-no" title="statement not covered" >                currentMode = 'normal';</span>
+<span class="cstat-no" title="statement not covered" >                updateModeUI();</span>
+            }
+        });
     });
 }</pre></td></tr></table></pre>
 
@@ -547,7 +526,7 @@ export function validarFechaNoPasada(fechaCita, fechaActual = new Date()) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-19T09:30:32.454Z
+                at 2026-06-19T12:08:15.852Z
             </div>
         <script src="prettify.js"></script>
         <script>
