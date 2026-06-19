@@ -1,4 +1,4 @@
-import { supabaseClient } from './supabase.js';
+import { Repository } from "./repository.js";
 
 if (typeof window !== 'undefined' && document.getElementById('info-cita')) {
     const urlParams = new URLSearchParams(window.location.search);
@@ -7,12 +7,8 @@ if (typeof window !== 'undefined' && document.getElementById('info-cita')) {
 
     async function cargarDetalles() {
         if (!idParam) return;
-        
-        const { data: citaEncontrada, error } = await supabaseClient
-            .from('citas')
-            .select('*')
-            .eq('id', idParam)
-            .single();
+
+        const { data: citaEncontrada, error } = await Repository.obtenerPorId(idParam);
 
         if (citaEncontrada && !error) {
             const fechaLegible = new Date(citaEncontrada.start_time).toLocaleString('es-ES', {

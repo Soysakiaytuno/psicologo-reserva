@@ -1,21 +1,13 @@
 import { supabaseClient } from './supabase.js';
+import { Repository } from './repository.js';
 
 if (typeof window !== 'undefined' && document.getElementById('lista-citas')) {
     let citasGlobal = [];
     const contenedor = document.getElementById('lista-citas');
 
     async function cargarCitas() {
-        const { data: citas, error } = await supabaseClient
-            .from('citas')
-            .select('*')
-            .order('start_time', { ascending: true });
-            
-        if (error) {
-            contenedor.innerHTML = "<p style='text-align:center; color: red;'>Error al cargar las citas.</p>";
-            console.error(error);
-            return;
-        }
-        
+        const { data: citas, error } = await Repository.cargarCitas();
+
         citasGlobal = citas;
 
         if (citas.length === 0) {
@@ -23,15 +15,15 @@ if (typeof window !== 'undefined' && document.getElementById('lista-citas')) {
         } else {
             citas.forEach((cita, index) => {
                 const fechaObj = new Date(cita.start_time);
-                const fechaLegible = fechaObj.toLocaleString('es-ES', { 
-                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' 
+                const fechaLegible = fechaObj.toLocaleString('es-ES', {
+                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
                 });
 
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.setAttribute('onclick', `abrirModal(${index})`);
                 card.innerHTML = `<div class="card-date">📅 ${fechaLegible}</div><div class="card-title">${cita.title}</div>`;
-                
+
                 contenedor.appendChild(card);
             });
         }
@@ -39,7 +31,7 @@ if (typeof window !== 'undefined' && document.getElementById('lista-citas')) {
 
     cargarCitas();
 
-    window.abrirModal = function(index) {
+    window.abrirModal = function (index) {
         const cita = citasGlobal[index];
         document.getElementById('m-titulo').innerText = cita.title;
         document.getElementById('m-fecha').innerText = new Date(cita.start_time).toLocaleString('es-ES');
@@ -51,11 +43,11 @@ if (typeof window !== 'undefined' && document.getElementById('lista-citas')) {
         document.getElementById('modalDetalle').style.display = 'flex';
     };
 
-    window.cerrarModal = function() {
+    window.cerrarModal = function () {
         document.getElementById('modalDetalle').style.display = 'none';
     };
 
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         const modal = document.getElementById('modalDetalle');
         if (event.target == modal) {
             window.cerrarModal();

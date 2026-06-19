@@ -1,4 +1,4 @@
-import { supabaseClient } from './supabase.js';
+import { Repository } from './repository.js';
 import { hayChoqueDeHorarios, validarOrdenHoras } from './validaciones.js';
 
 // --- DOM Y BASE DE DATOS ---
@@ -66,11 +66,7 @@ if (typeof window !== 'undefined' && document.getElementById('citaForm')) {
             return;
         }
 
-        const { data: citasGuardadas, error: fetchError } = await supabaseClient
-            .from('citas')
-            .select('start_time, end_time')
-            .gte('start_time', `${fecha}T00:00:00`)
-            .lte('start_time', `${fecha}T23:59:59`);
+        const { data: citasGuardadas, error: fetchError } = await Repository.obtenerCitasDelDia(fecha);
 
         if (fetchError) {
             alert("Error al verificar disponibilidad en la base de datos.");
@@ -85,7 +81,7 @@ if (typeof window !== 'undefined' && document.getElementById('citaForm')) {
             return;
         }
 
-        const { error: insertError } = await supabaseClient.from('citas').insert([{
+        const { error: insertError } = await Repository.crear({
             title: `${tituloMotivo} - ${nombre}`,
             start_time: fechaInicioObj.toISOString(),
             end_time: fechaFinObj.toISOString(),
@@ -93,7 +89,7 @@ if (typeof window !== 'undefined' && document.getElementById('citaForm')) {
             paciente_edad: edad,
             paciente_carnet: carnet,
             descripcion: descripcion
-        }]);
+        });
 
         if (!insertError) window.location.href = 'index.html';
     });

@@ -1,4 +1,4 @@
-import { supabaseClient } from './supabase.js';
+import { Repository } from './repository.js';
 import { validarFechaNoPasada } from './validaciones.js';
 
 if (typeof document !== 'undefined') {
@@ -48,11 +48,7 @@ if (typeof document !== 'undefined') {
 
                 // 2. No se puede crear si ya existe una cita en ese hueco
                 // Consultamos en Supabase si ya hay una cita con esa fecha exacta
-                const { data: citasExistentes, error } = await supabaseClient
-                    .from('citas')
-                    .select('start_time')
-                    .eq('start_time', info.start.toISOString());
-
+                const { data: citasExistentes, error } = await Repository.verificarConflictoHorario(info.start.toISOString());
                 const yaExiste = citasExistentes && citasExistentes.length > 0;
 
                 if (yaExiste) {
@@ -90,7 +86,7 @@ if (typeof document !== 'undefined') {
             // Cargar eventos directamente desde Supabase
             events: async function (fetchInfo, successCallback, failureCallback) {
                 try {
-                    const { data, error } = await supabaseClient.from('citas').select('*');
+                    const { data, error } = await Repository.cargarCitas();
                     if (error) throw error;
 
                     // Mapeamos los datos de Supabase al formato que entiende FullCalendar
