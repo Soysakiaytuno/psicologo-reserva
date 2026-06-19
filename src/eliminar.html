@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Cita</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Importar Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <h2 style="text-align: center; color: var(--danger-color);">Eliminar Consulta</h2>
+
+    <div class="form-container" style="border-top: 5px solid var(--danger-color);">
+        <div id="info-cita">
+            <p style="text-align: center;">Buscando cita...</p>
+        </div>
+
+        <br>
+        <div class="flex-gap">
+            <a href="index.html" class="btn-save btn-secondary">Cancelar</a>
+            <button id="btn-confirmar-eliminar" class="btn-save btn-danger" style="display:none;">Sí, Eliminar Permanentemente</button>
+        </div>
+    </div>
+
+    <script type="module" src="eliminar.js"></script>
+</body>
+</html>

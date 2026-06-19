@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Citas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h2 style="text-align: center;">Próximas Citas</h2>
+    
+    <div class="text-center mb-20">
+        <a href="index.html" class="btn-save btn-secondary">Volver al Calendario</a>
+    </div>
+
+    <div id="lista-citas" style="max-width: 600px; margin: 0 auto;">
+        <!-- Aquí se insertarán las tarjetas con JS -->
+    </div>
+
+    <!-- Modal para ver detalles -->
+    <div id="modalDetalle" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="cerrarModal()">&times;</span>
+            <h3 id="m-titulo"></h3>
+            <p><strong>Fecha:</strong> <span id="m-fecha"></span></p>
+            <p><strong>Paciente:</strong> <span id="m-paciente"></span></p>
+            <p><strong>Edad:</strong> <span id="m-edad"></span></p>
+            <p><strong>Carnet:</strong> <span id="m-carnet"></span></p>
+            <hr>
+            <p><strong>Descripción:</strong></p>
+            <p id="m-descripcion" style="background: #f0f0f0; padding: 10px; border-radius: 4px;"></p>
+            <br>
+            <button onclick="cerrarModal()" class="btn-save">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Importar el cliente de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="listado.js"></script>
+</body>
+</html>

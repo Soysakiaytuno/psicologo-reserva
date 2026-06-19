@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Psicólogo - FullCalendar</title>
+    
+    <!-- 1. Importar la librería FullCalendar desde CDN -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+    
+    <!-- 2. Importar el cliente de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <h1>Gestión de Citas - Dr. Ejemplo</h1>
+        <a href="listado.html" class="btn-header">Ver Lista de Citas</a>
+    </header>
+
+    <div class="main-layout">
+        <aside class="sidebar">
+            <button id="btn-edit-mode" class="action-btn" title="Modo Edición">✏️</button>
+            <button id="btn-delete-mode" class="action-btn" title="Modo Eliminación">🗑️</button>
+        </aside>
+
+        <div id='calendar-container'>
+            <div id='calendar'></div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>

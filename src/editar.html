@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Cita</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Importar Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <h2 style="text-align: center; color: #f39c12;">Editar Datos de Consulta</h2>
+
+    <div class="form-container" style="border-top: 5px solid #f39c12;">
+        <form id="citaForm">
+            <div class="form-group">
+                <label>Fecha (Automática):</label>
+                <input type="date" id="fecha" readonly style="background-color: #fdf5e6; color: #555; font-weight: bold;">
+            </div>
+
+            <div class="form-group" style="display: flex; gap: 15px;">
+                <div style="flex: 1;">
+                    <label>Hora Inicio:</label>
+                    <input type="time" id="horaInicio" required>
+                </div>
+                <div style="flex: 1;">
+                    <label>Hora Fin:</label>
+                    <input type="time" id="horaFin" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre">Nombre Completo:</label>
+                <input type="text" id="nombre" required>
+            </div>
+
+            <div class="form-group">
+                <label for="carnet">Carnet de Identidad:</label>
+                <input type="text" id="carnet" required>
+            </div>
+
+            <div class="form-group">
+                <label for="edad">Edad:</label>
+                <input type="number" id="edad" required min="1">
+            </div>
+
+            <div class="form-group">
+                <label for="titulo">Motivo (Título):</label>
+                <input type="text" id="titulo" required>
+            </div>
+
+            <div class="form-group">
+                <label for="descripcion">Descripción Detallada:</label>
+                <textarea id="descripcion" rows="4"></textarea>
+            </div>
+
+            <button type="submit" class="btn-save" style="background-color: #f39c12;">Guardar Cambios</button>
+            <div class="text-center" style="margin-top: 15px;">
+                <a href="index.html" class="btn-save btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+    <script type="module" src="editar.js"></script>
+</body>
+</html>
