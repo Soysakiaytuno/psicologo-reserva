@@ -1,22 +1,5 @@
 import { supabaseClient } from './supabase.js';
 
-// --- LÓGICA DE NEGOCIO (EXPORTADA PARA PRUEBAS - HU2) ---
-export function hayChoqueDeHorarios(nuevoInicio, nuevoFin, citasExistentes) {
-    return (citasExistentes || []).some(cita => {
-        const existingStart = new Date(cita.start_time).getTime();
-        const existingEnd = new Date(cita.end_time).getTime();
-        const newStart = nuevoInicio.getTime();
-        const newEnd = nuevoFin.getTime();
-        // Lógica de superposición: (InicioA < FinB) y (FinA > InicioB)
-        return (newStart < existingEnd && newEnd > existingStart);
-    });
-}
-
-// Verifica que la hora de finalización sea posterior a la de inicio
-export function validarOrdenHoras(inicioObj, finObj) {
-    return finObj > inicioObj;
-}
-
 // --- DOM Y BASE DE DATOS ---
 if (typeof window !== 'undefined' && document.getElementById('citaForm')) {
     const urlParams = new URLSearchParams(window.location.search);
