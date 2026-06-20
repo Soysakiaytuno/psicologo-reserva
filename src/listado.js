@@ -1,12 +1,16 @@
 import { Repository } from './repository.js';
 
 export function cargarCita(cita, index) {
+    if (!cita) {
+        `<div class="card-date"></div><div class="card-title">Datos no disponibles</div>`;
+    }
     const titleObj = cita.title || 'Consulta sin titulo';
     const fechaObj = new Date(cita.start_time);
     const fechaLegible = fechaObj.toLocaleString('es-ES', {
         weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
     });
-    return `<div class="card-date">📅 ${fechaLegible}</div><div class="card-title">${titleObj}</div>`;
+    const card = `<div class="card-date">📅 ${fechaLegible}</div><div class="card-title">${titleObj}</div>`;
+    return card;
 }
 
 if (typeof window !== 'undefined' && document.getElementById('lista-citas')) {
