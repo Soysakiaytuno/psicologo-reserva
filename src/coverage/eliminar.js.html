@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for validaciones.js</title>
+    <title>Code coverage report for eliminar.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="prettify.css" />
     <link rel="stylesheet" href="base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="index.html">All files</a> validaciones.js</h1>
+        <h1><a href="index.html">All files</a> eliminar.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.11% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/17</span>
+                <span class='fraction'>0/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.81% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>9/11</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.11% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/17</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -96,79 +96,73 @@
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
-// --- LÓGICA DE NEGOCIO (EXPORTADA PARA PRUEBAS - HU2) ---
-export function hayChoqueDeHorarios(nuevoInicio, nuevoFin, citasExistentes) {
-    return (citasExistentes || <span class="branch-1 cbranch-no" title="branch not covered" >[])</span>.some(cita =&gt; {
-        const existingStart = new Date(cita.start_time).getTime();
-        const existingEnd = new Date(cita.end_time).getTime();
-        const newStart = nuevoInicio.getTime();
-        const newEnd = nuevoFin.getTime();
-        // Lógica de superposición: (InicioA &lt; FinB) y (FinA &gt; InicioB)
-        return (newStart &lt; existingEnd &amp;&amp; newEnd &gt; existingStart);
-    });
-}
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Repository } from "./repository.js";
+<span class="cstat-no" title="statement not covered" >if (typeof window !== 'undefined' &amp;&amp; document.getElementById('info-cita') &amp;&amp; document.getElementById('btn-confirmar-eliminar')) {</span>
+    const urlParams = <span class="cstat-no" title="statement not covered" >new URLSearchParams(window.location.search);</span>
+    const idParam = <span class="cstat-no" title="statement not covered" >urlParams.get('id');</span>
 &nbsp;
-// Verifica que la hora de finalización sea posterior a la de inicio
-export function validarOrdenHoras(inicioObj, finObj) {
-    return finObj &gt; inicioObj;
-}
+    const contenedor = <span class="cstat-no" title="statement not covered" >document.getElementById('info-cita');</span>
+    const btnEliminar = <span class="cstat-no" title="statement not covered" >document.getElementById('btn-confirmar-eliminar');</span>
 &nbsp;
-export function validarFechaNoPasada(fechaCita, fechaActual = new Date()) {
-    const ahora = new Date(fechaActual);
-    const seleccion = new Date(fechaCita);
-    ahora.setHours(0, 0, 0, 0);
-    seleccion.setHours(0, 0, 0, 0);
-    return seleccion &gt;= ahora;
-}
+    async function <span class="fstat-no" title="function not covered" >cargarDatosEliminar(</span>) {
+<span class="cstat-no" title="statement not covered" >        if (!idParam) <span class="cstat-no" title="statement not covered" >return;</span></span>
 &nbsp;
-export function validarDatosPaciente(paciente) {
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!paciente) {
-<span class="cstat-no" title="statement not covered" >        return { valido: false, mensaje: 'No hay datos del paciente' };</span>
+        const { data: citaEncontrada, error } = <span class="cstat-no" title="statement not covered" >await Repository.obtenerPorId(idParam);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (citaEncontrada &amp;&amp; !error) {</span>
+            const fechaLegible = <span class="cstat-no" title="statement not covered" >new Date(citaEncontrada.start_time).toLocaleString('es-ES');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            contenedor.innerHTML = `</span>
+                &lt;h3 style="text-align:center;"&gt;¿Estás seguro de que deseas eliminar esta cita?&lt;/h3&gt;
+                &lt;p&gt;&lt;strong&gt;Paciente:&lt;/strong&gt; ${citaEncontrada.paciente_nombre || 'Desconocido'}&lt;/p&gt;
+                &lt;p&gt;&lt;strong&gt;Fecha y Hora:&lt;/strong&gt; ${fechaLegible}&lt;/p&gt;
+                &lt;p style="color: #666; text-align:center; margin-top: 20px;"&gt;Esta acción no se puede deshacer.&lt;/p&gt;
+            `;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            btnEliminar.style.display = 'block';</span>
+<span class="cstat-no" title="statement not covered" >            btnEliminar.addEventListener('click', <span class="fstat-no" title="function not covered" >async </span>function () {</span>
+<span class="cstat-no" title="statement not covered" >                await Repository.eliminar(idParam);</span>
+<span class="cstat-no" title="statement not covered" >                window.location.href = 'index.html';</span>
+            });
+        } else {
+<span class="cstat-no" title="statement not covered" >            contenedor.innerHTML = "&lt;p style='color: red; text-align: center;'&gt;Error: No se encontró la cita.&lt;/p&gt;";</span>
+        }
     }
-    if (!paciente.tituloMotivo || paciente.tituloMotivo.trim() === '') {
-        return { valido: false, mensaje: 'El motivo es obligatorio' };
-    }
-    return { valido: true };
-}
-&nbsp;</pre></td></tr></table></pre>
+<span class="cstat-no" title="statement not covered" >    cargarDatosEliminar();</span>
+}</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
