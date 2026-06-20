@@ -24,8 +24,11 @@ export function validarFechaNoPasada(fechaCita, fechaActual = new Date()) {
     return seleccion >= ahora;
 }
 
-export function validarDatosPaciente(nombre, edad, tituloMotivo, descripcion) {
-    if (!tituloMotivo || tituloMotivo.trim() === '') {
+export function validarDatosPaciente(paciente) {
+    if (!paciente) {
+        return { valido: false, mensaje: 'No hay datos del paciente' };
+    }
+    if (!paciente.tituloMotivo || paciente.tituloMotivo.trim() === '') {
         return { valido: false, mensaje: 'El motivo es obligatorio' };
     }
     return { valido: true };
