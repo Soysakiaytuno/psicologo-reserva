@@ -25,8 +25,8 @@ if (typeof window !== 'undefined' && document.getElementById('lista-citas')) {
     const contenedor = document.getElementById('lista-citas');
     async function cargarCitas() {
         const { data: citas, error } = await Repository.cargarCitas();
-
-        citasGlobal = citas;
+        const citasOrdenadas = ordenarCitas(citas);
+        citasGlobal = citasOrdenadas;
 
         if (citas.length === 0) {
             contenedor.innerHTML = "<p style='text-align:center'>No hay citas agendadas.</p>";
