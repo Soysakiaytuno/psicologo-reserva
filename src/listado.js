@@ -1,10 +1,17 @@
-import { supabaseClient } from './supabase.js';
 import { Repository } from './repository.js';
+
+export function cargarCita(cita, index) {
+    const titleObj = cita.title || 'Consulta sin titulo';
+    const fechaObj = new Date(cita.start_time);
+    const fechaLegible = fechaObj.toLocaleString('es-ES', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+    });
+    return `<div class="card-date">📅 ${fechaLegible}</div><div class="card-title">${titleObj}</div>`;
+}
 
 if (typeof window !== 'undefined' && document.getElementById('lista-citas')) {
     let citasGlobal = [];
     const contenedor = document.getElementById('lista-citas');
-
     async function cargarCitas() {
         const { data: citas, error } = await Repository.cargarCitas();
 
@@ -14,16 +21,10 @@ if (typeof window !== 'undefined' && document.getElementById('lista-citas')) {
             contenedor.innerHTML = "<p style='text-align:center'>No hay citas agendadas.</p>";
         } else {
             citas.forEach((cita, index) => {
-                const fechaObj = new Date(cita.start_time);
-                const fechaLegible = fechaObj.toLocaleString('es-ES', {
-                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
-                });
-
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.setAttribute('onclick', `abrirModal(${index})`);
-                card.innerHTML = `<div class="card-date">📅 ${fechaLegible}</div><div class="card-title">${cita.title}</div>`;
-
+                card.innerHTML = cargarCita(cita, index);
                 contenedor.appendChild(card);
             });
         }

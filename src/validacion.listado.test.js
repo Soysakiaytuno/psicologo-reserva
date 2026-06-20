@@ -10,7 +10,7 @@ describe('Validación de visualizacion de la lista de pacientes', () => {
         };
         const resultado = cargarCita(citaMock);
         expect(resultado).toContain('Consulta General - Juan Perez');
-        expect(resultado).toContain('DOMINGO, 5 DE NOVIEMBRE DE 2026, 10:00');
+        expect(resultado).toContain('jueves, 5 de noviembre de 2026, 10:00');
     });
 
     it('Negative Path: No muestra los pacientes o no muestra la informacion completa', () => {
