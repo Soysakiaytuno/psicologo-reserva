@@ -1,3 +1,4 @@
+import { mapeoFullCallendar } from './mapeo.js';
 import { Repository } from './repository.js';
 import { validarFechaNoPasada } from './validaciones.js';
 
@@ -90,18 +91,7 @@ if (typeof document !== 'undefined') {
                     if (error) throw error;
 
                     // Mapeamos los datos de Supabase al formato que entiende FullCalendar
-                    const eventos = data.map(cita => ({
-                        id: cita.id,
-                        title: cita.title,
-                        start: cita.start_time,
-                        end: cita.end_time,
-                        extendedProps: {
-                            nombrePaciente: cita.paciente_nombre,
-                            edad: cita.paciente_edad,
-                            carnet: cita.paciente_carnet,
-                            descripcion: cita.descripcion
-                        }
-                    }));
+                    const eventos = mapeoFullCallendar(data);
                     successCallback(eventos);
                 } catch (err) {
                     console.error("Error al cargar citas de Supabase:", err);
