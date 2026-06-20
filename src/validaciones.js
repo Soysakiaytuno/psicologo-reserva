@@ -23,3 +23,10 @@ export function validarFechaNoPasada(fechaCita, fechaActual = new Date()) {
     seleccion.setHours(0, 0, 0, 0);
     return seleccion >= ahora;
 }
+
+export function validarDatosPaciente(nombre, edad, tituloMotivo, descripcion) {
+    if (!tituloMotivo || tituloMotivo.trim() === '') {
+        return { valido: false, mensaje: 'El motivo es obligatorio' };
+    }
+    return { valido: true };
+}
