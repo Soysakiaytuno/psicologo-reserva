@@ -13,6 +13,13 @@ export function cargarCita(cita, index) {
     return card;
 }
 
+export function ordenarCitas(citas) {
+    if (!citas) return [];
+    const citasOrdenadas = [...citas].sort((a, b) => new Date(a.start_time) - new Date(b.start_time));
+    return citasOrdenadas;
+}
+
+
 if (typeof window !== 'undefined' && document.getElementById('lista-citas')) {
     let citasGlobal = [];
     const contenedor = document.getElementById('lista-citas');
