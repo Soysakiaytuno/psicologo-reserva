@@ -1,5 +1,5 @@
 import { Repository } from './repository.js';
-import { hayChoqueDeHorarios, validarOrdenHoras } from './validaciones.js';
+import { hayChoqueDeHorarios, validarOrdenHoras, validarDatosPaciente } from './validaciones.js';
 
 // --- DOM Y BASE DE DATOS ---
 if (typeof window !== 'undefined' && document.getElementById('citaForm')) {
@@ -51,7 +51,11 @@ if (typeof window !== 'undefined' && document.getElementById('citaForm')) {
 
         const fechaCheck = new Date(fechaInicioObj);
         fechaCheck.setHours(0, 0, 0, 0);
-
+        const pacienteData = { nombre, edad, carnet, tituloMotivo, descripcion }
+        if (!validarDatosPaciente(pacienteData)) {
+            alert("Error: Los datos del paciente son invalidos.");
+            return;
+        }
         if (fechaCheck < fechaActualSinHora) {
             alert("Error: La fecha seleccionada es anterior a hoy.");
             return;
